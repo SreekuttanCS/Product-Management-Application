@@ -1,18 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthWrapper from "../components/Auth/AuthWrapper";
+import { Lock, Mail } from "lucide-react";
+import InputField from "../components/Auth/InputField ";
+import SubmitButton from "../components/Auth/submitButton";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const handleLogin = (e) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (field) => (e) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // login logic here
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+      const { token, userId } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+
+      console.log("Logined", response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <AuthWrapper
-      reverse={false} // Show side panel first
+      reverse={false}
       sideTitle="Hello Friend!"
       sideText="Enter your personal details and start your journey with us"
       sideButtonText="SIGN UP"
@@ -21,8 +47,18 @@ const Login = () => {
       submitButtonText="SIGN IN"
       onSubmit={handleLogin}
     >
-      <input type="text" placeholder="Username" required />
-      <input type="password" placeholder="Password" required />
+      <InputField
+        Icon={Mail}
+        placeholder="Email"
+        onChange={handleChange("email")}
+      />
+      <InputField
+        Icon={Lock}
+        placeholder="Password"
+        onChange={handleChange("password")}
+        type="password"
+      />
+      <SubmitButton submitButtonText={"SIGN UP"} onClick={handleLogin} />
     </AuthWrapper>
   );
 };

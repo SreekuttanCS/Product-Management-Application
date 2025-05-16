@@ -48,13 +48,17 @@ exports.addProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const { search = "", subCategory, page = 1, limit = 10 } = req.query;
+    const { search = "", subcategories, page = 1, limit = 10 } = req.query;
 
     const query = {
       name: { $regex: search, $options: "i" },
     };
 
-    if (subCategory) query.subCategory = subCategory;
+    if (subcategories) {
+      // Convert comma separated string to array
+      const subCatArray = subcategories.split(",");
+      query.subCategory = { $in: subCatArray };
+    }
 
     const total = await Product.countDocuments(query);
     const products = await Product.find(query)
@@ -75,7 +79,8 @@ exports.updateProduct = async (req, res) => {
 
     // Parse variants if sent as string (common with form-data)
     if (typeof variants === "string") {
-      try {KW
+      try {
+        KW;
         variants = JSON.parse(variants);
       } catch (err) {
         return res.status(400).json({ error: "Invalid variants JSON format" });
@@ -121,5 +126,20 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     console.error("Delete Error:", error);
     res.status(500).json({ error: "Delete failed" });
+  }
+};
+exports.getProductById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.findById(id).populate("category subCategory");
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.status(200).json({ product });
+  } catch (error) {
+    console.error("Get Product By ID Error:", error);
+    res.status(500).json({ error: "Failed to fetch product" });
   }
 };

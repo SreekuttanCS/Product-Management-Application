@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AuthWrapper from "../components/Auth/AuthWrapper";
 import { Lock, Mail, User } from "lucide-react";
 import InputField from "../components/Auth/InputField ";
+import SubmitButton from "../components/Auth/submitButton";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,9 +16,21 @@ const Signup = () => {
   const handleChange = (field) => (e) => {
     setFormData({ ...formData, [field]: e.target.value });
   };
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+      console.log("Created", response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -47,6 +61,7 @@ const Signup = () => {
         onChange={handleChange("password")}
         type="password"
       />
+      <SubmitButton submitButtonText={"SIGN UP"} onClick={handleSignup} />
     </AuthWrapper>
   );
 };
