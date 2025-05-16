@@ -27,7 +27,8 @@ const Signup = () => {
           password: formData.password,
         }
       );
-      console.log("Created", response);
+
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }

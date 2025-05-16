@@ -1,20 +1,20 @@
 import { Heart, ShoppingCart } from "lucide-react";
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleWishlist } from "../../redux/wishlistSlice";
 
 const Navbar = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
   const handleClick = () => {
     dispatch(toggleWishlist());
   };
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/login");
-  // };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <nav className="w-full bg-[#003F62] text-white px-8 py-4 flex items-center justify-between">
@@ -34,7 +34,13 @@ const Navbar = () => {
             <Heart size={30} />
           </span>
 
-          <h4>Sign in</h4>
+          {token ? (
+            <button onClick={handleLogout}>Log Out</button>
+          ) : (
+            <span>
+              <Link to="/login">Log in</Link>
+            </span>
+          )}
 
           <div className="flex gap-2 items-center">
             <ShoppingCart size={30} />

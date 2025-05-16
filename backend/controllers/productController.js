@@ -21,7 +21,6 @@ exports.addProduct = async (req, res) => {
       });
     }
 
-    // ✅ Convert category/subCategory names to ObjectId
     const categoryDoc = await Category.findOne({ name: category });
     const subCategoryDoc = await SubCategory.findOne({ name: subCategory });
 
@@ -62,7 +61,6 @@ exports.getProducts = async (req, res) => {
     };
 
     if (subcategories) {
-      // Convert comma separated string to array
       const subCatArray = subcategories.split(",");
       query.subCategory = { $in: subCatArray };
     }
@@ -84,7 +82,6 @@ exports.updateProduct = async (req, res) => {
   try {
     let { name, description, category, subCategory, variants } = req.body;
 
-    // Parse variants if sent as string (common with form-data)
     if (typeof variants === "string") {
       try {
         variants = JSON.parse(variants);
