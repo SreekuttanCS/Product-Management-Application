@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AuthWrapper from "../components/Auth/AuthWrapper";
 import { Lock, Mail } from "lucide-react";
 import InputField from "../components/Auth/InputField ";
-import SubmitButton from "../components/Auth/submitButton";
 import axios from "axios";
+import SubmitButton from "../components/Auth/submitButton";
 
 const Login = () => {
   const navigate = useNavigate();
