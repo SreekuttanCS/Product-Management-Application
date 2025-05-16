@@ -1,10 +1,10 @@
 const Product = require("../models/Product");
-
+const Category = require("../models/Category");
+const SubCategory = require("../models/Subcategory");
 exports.addProduct = async (req, res) => {
   try {
     let { name, description, category, subCategory, variants } = req.body;
 
-    // Parse variants if sent as a JSON string (common with multipart/form-data)
     if (typeof variants === "string") {
       try {
         variants = JSON.parse(variants);
@@ -15,25 +15,32 @@ exports.addProduct = async (req, res) => {
       }
     }
 
-    // Validate input
     if (!name || !category || !subCategory || !Array.isArray(variants)) {
       return res.status(400).json({
         error: "Missing required fields or invalid variants format",
       });
     }
 
-    // Create new product
+    // ✅ Convert category/subCategory names to ObjectId
+    const categoryDoc = await Category.findOne({ name: category });
+    const subCategoryDoc = await SubCategory.findOne({ name: subCategory });
+
+    if (!categoryDoc || !subCategoryDoc) {
+      return res
+        .status(400)
+        .json({ error: "Invalid category or subCategory name" });
+    }
+
     const newProduct = new Product({
       name,
       description,
-      category,
-      subCategory,
+      category: categoryDoc._id,
+      subCategory: subCategoryDoc._id,
       image: req.file?.path || "",
       variants,
       createdBy: req.user._id,
     });
 
-    // Save to the database
     await newProduct.save();
 
     res.status(201).json({
@@ -80,7 +87,6 @@ exports.updateProduct = async (req, res) => {
     // Parse variants if sent as string (common with form-data)
     if (typeof variants === "string") {
       try {
-        KW;
         variants = JSON.parse(variants);
       } catch (err) {
         return res.status(400).json({ error: "Invalid variants JSON format" });

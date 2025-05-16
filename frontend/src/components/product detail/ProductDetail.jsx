@@ -40,7 +40,7 @@ const ProductDetail = () => {
       <div className="flex flex-col gap-8 max-w-md">
         <ProductInfo name={product.name} variant={product.variants[0]} />
         <ProductVariants variants={product.variants} />
-        <ProductActions />
+        <ProductActions productId={product._id} />
       </div>
     </div>
   );
