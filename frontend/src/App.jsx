@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/navbar/Navbar";
 import ProductDetail from "./components/product detail/ProductDetail";
+import EditProduct from "./pages/EditProduct";
+
 const App = () => {
   return (
     <Router>
@@ -17,7 +19,6 @@ const App = () => {
           path="/"
           element={
             <>
-              <Navbar />
               <Home />
             </>
           }
@@ -28,6 +29,15 @@ const App = () => {
             <>
               <Navbar />
               <ProductDetail />
+            </>
+          }
+        />
+        <Route
+          path="/edit-product/:id"
+          element={
+            <>
+              <Navbar />
+              <EditProduct />
             </>
           }
         />

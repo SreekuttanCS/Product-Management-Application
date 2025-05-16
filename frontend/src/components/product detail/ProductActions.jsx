@@ -2,9 +2,11 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import WishListIcon from "../wishlist/WishListIcon";
 import { addToWishlist, toggleWishlist } from "../../redux/wishlistSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductActions = ({ productId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleAddWish = async () => {
     try {
@@ -25,9 +27,16 @@ const ProductActions = ({ productId }) => {
     }
   };
 
+  const handleEdit = () => {
+    navigate(`/edit-product/${productId}`);
+  };
+
   return (
     <div className="flex justify-between items-center gap-4">
-      <button className="bg-amber-500 hover:bg-amber-600 p-3 text-white w-40 rounded-2xl">
+      <button
+        onClick={handleEdit}
+        className="bg-amber-500 hover:bg-amber-600 p-3 text-white w-40 rounded-2xl"
+      >
         Edit Product
       </button>
       <button className="bg-amber-500 hover:bg-amber-600 p-3 text-white w-40 rounded-2xl">
