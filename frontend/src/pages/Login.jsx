@@ -4,7 +4,7 @@ import AuthWrapper from "../components/Auth/AuthWrapper";
 import { Lock, Mail } from "lucide-react";
 import InputField from "../components/Auth/InputField ";
 import axios from "axios";
-import SubmitButton from "../components/Auth/submitButton";
+import SubmitButton from "../components/Auth/SubmitButton";
 
 const Login = () => {
   const navigate = useNavigate();
