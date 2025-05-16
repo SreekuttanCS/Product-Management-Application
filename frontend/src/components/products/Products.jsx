@@ -6,8 +6,7 @@ const Products = ({ selectedSubs }) => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const limit = 6; // products per page
-
+  const limit = 6; 
   useEffect(() => {
     setPage(1);
   }, [selectedSubs]);

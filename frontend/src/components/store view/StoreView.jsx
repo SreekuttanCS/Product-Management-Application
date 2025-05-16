@@ -6,19 +6,18 @@ import SubNav from "../navbar/SubNav";
 import { setActiveComponent } from "../../redux/productSlice";
 
 const StoreView = () => {
-  const dispatch = useDispatch(); // Get dispatch function from Redux
-  const [selectedSubs, setSelectedSubs] = useState([]); // Local state for selected subcategories
-  console.log(selectedSubs);
+  const dispatch = useDispatch();
+  const [selectedSubs, setSelectedSubs] = useState([]);
 
   return (
     <>
       <SubNav
-        handleSelect={(component) => dispatch(setActiveComponent(component))} // Dispatching the action to set active component
+        handleSelect={(component) => dispatch(setActiveComponent(component))}
       />
       <div className="flex">
         <Sidebar
           selectedSubs={selectedSubs}
-          setSelectedSubs={setSelectedSubs} // Passing the local setter function for state updates
+          setSelectedSubs={setSelectedSubs}
         />
         <Products selectedSubs={selectedSubs} />
       </div>

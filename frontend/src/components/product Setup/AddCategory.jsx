@@ -1,41 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-const AddSubCategory = () => {
+const AddCategory = ({ onDiscard }) => {
   const [name, setName] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState(null);
   const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    // Fetch available categories for dropdown
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/categories", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCategories(res.data);
-      } catch (err) {
-        console.error("Failed to fetch categories");
-      }
-    };
-
-    fetchCategories();
-  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name.trim() || !categoryId) {
-      setMessage("Both category and subcategory name are required.");
+    if (!name.trim()) {
+      setMessage("Category name cannot be empty.");
       return;
     }
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/subcategories",
-        { name, categoryId },
+        "http://localhost:5000/api/categories",
+        { name },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -43,19 +25,12 @@ const AddSubCategory = () => {
         }
       );
 
-      setMessage(`Subcategory '${res.data.name}' added successfully!`);
-      setName("");
-      setCategoryId("");
+      setMessage(`Category '${res.data.name}' added successfully!`);
+      setName(""); 
     } catch (error) {
       const errMsg = error.response?.data?.message || "Something went wrong.";
       setMessage(errMsg);
     }
-  };
-
-  const handleDiscard = () => {
-    setName("");
-    setCategoryId("");
-    setMessage(null);
   };
 
   return (
@@ -63,41 +38,25 @@ const AddSubCategory = () => {
       onSubmit={handleSubmit}
       className="max-w-xl mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6"
     >
-      <h2 className="text-2xl font-semibold text-center">Add Subcategory</h2>
-
-      <select
-        value={categoryId}
-        onChange={(e) => setCategoryId(e.target.value)}
-        className="border border-gray-300 rounded px-4 py-2"
-      >
-        <option value="">Select a Category</option>
-        {categories.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {cat.name}
-          </option>
-        ))}
-      </select>
-
+      <h2 className="text-2xl font-semibold text-center">Add Category</h2>
       <input
         type="text"
-        placeholder="Enter Subcategory Name"
+        placeholder="Enter Category name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="border border-gray-300 rounded px-4 py-2"
       />
-
       {message && <p className="text-sm text-center text-red-500">{message}</p>}
-
       <div className="flex justify-end gap-4 mt-4">
         <button
           type="submit"
           className="bg-amber-500 text-white px-6 py-2 rounded-2xl hover:bg-amber-600"
         >
-          Add Subcategory
+          Add Category
         </button>
         <button
           type="button"
-          onClick={handleDiscard}
+          onClick={onDiscard}
           className="text-gray-600 hover:underline"
         >
           Discard
@@ -107,4 +66,4 @@ const AddSubCategory = () => {
   );
 };
 
-export default AddSubCategory;
+export default AddCategory;
