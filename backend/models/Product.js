@@ -27,8 +27,9 @@ const productSchema = new mongoose.Schema(
     },
     variants: [
       {
-        ram: {
-          type: String,
+        attributes: {
+          type: Map,
+          of: String, // you can use 'Mixed' if needed
           required: true,
         },
         price: {

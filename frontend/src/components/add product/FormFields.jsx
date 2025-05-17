@@ -9,7 +9,7 @@ const FormFields = ({
   placeholder,
   required,
 }) => (
-  <div className="flex flex-col gap-2">
+  <div className="flex justify-around">
     <label htmlFor={name} className="font-semibold">
       {label}
     </label>
@@ -20,7 +20,7 @@ const FormFields = ({
       onChange={onChange}
       placeholder={placeholder}
       required={required}
-      className="p-2 border rounded-md"
+      className="p-2 border rounded-md w-100"
     />
   </div>
 );

@@ -5,42 +5,46 @@ const CategorySelector = ({
   subCategories,
   formData,
   onChange,
-}) => (
-  <div className="flex flex-col gap-2">
-    <label htmlFor="category" className="font-semibold">
-      Category
-    </label>
-    <select
-      name="category"
-      value={formData.category}
-      onChange={onChange}
-      className="p-2 border rounded-md"
-    >
-      <option value="">Select Category</option>
-      {categories.map((category) => (
-        <option key={category.id} value={category.id}>
-          {category.name}
-        </option>
-      ))}
-    </select>
+}) => {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="w-full flex  justify-around">
+        <label className="block text-sm font-medium mb-2">Category</label>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={onChange}
+          required
+          className="border p-2 rounded w-100"
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-    <label htmlFor="subCategory" className="font-semibold">
-      SubCategory
-    </label>
-    <select
-      name="subCategory"
-      value={formData.subCategory}
-      onChange={onChange}
-      className="p-2 border rounded-md"
-    >
-      <option value="">Select SubCategory</option>
-      {subCategories.map((subCategory) => (
-        <option key={subCategory.id} value={subCategory.id}>
-          {subCategory.name}
-        </option>
-      ))}
-    </select>
-  </div>
-);
+      <div className="w-full flex  justify-around">
+        <label className="block text-sm font-medium mb-2">SubCategory</label>
+        <select
+          name="subCategory"
+          value={formData.subCategory}
+          onChange={onChange}
+          required
+          className="border p-2 rounded w-100"
+        >
+          <option value="">Select SubCategory</option>
+          {subCategories.map((subCategory) => (
+            <option key={subCategory._id} value={subCategory._id}>
+              {subCategory.name}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+};
 
 export default CategorySelector;

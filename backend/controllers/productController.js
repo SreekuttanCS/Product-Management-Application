@@ -21,20 +21,19 @@ exports.addProduct = async (req, res) => {
       });
     }
 
-    const categoryDoc = await Category.findOne({ name: category });
-    const subCategoryDoc = await SubCategory.findOne({ name: subCategory });
+    // Ensure category and subCategory are ObjectIds
+    const categoryDoc = await Category.findById(category);
+    const subCategoryDoc = await SubCategory.findById(subCategory);
 
     if (!categoryDoc || !subCategoryDoc) {
-      return res
-        .status(400)
-        .json({ error: "Invalid category or subCategory name" });
+      return res.status(400).json({ error: "Invalid category or subCategory" });
     }
 
     const newProduct = new Product({
       name,
       description,
-      category: categoryDoc._id,
-      subCategory: subCategoryDoc._id,
+      category,
+      subCategory,
       image: req.file?.path || "",
       variants,
       createdBy: req.user._id,

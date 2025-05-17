@@ -32,10 +32,17 @@ const ProductSetup = () => {
   return (
     <div>
       {activeComponent && (
-        <div className="absolute z-10 top-2/5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow rounded-2xl border border-gray-400 w-1/2 h-3/4">
-          {renderComponent()}
-        </div>
-      )}{" "}
+        <>
+          <div
+            className="fixed top-0 left-0 w-full h-full bg-[rgba(61,52,52,0.5)] z-9"
+            onClick={handleDiscard}
+          ></div>
+
+          <div className="absolute z-10 top-2/5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-3/4 border-gray-400">
+            {renderComponent()}
+          </div>
+        </>
+      )}
     </div>
   );
 };

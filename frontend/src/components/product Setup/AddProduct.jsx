@@ -12,12 +12,14 @@ const AddProduct = ({ onDiscard }) => {
     title: "",
     description: "",
     subCategory: "",
-    ram: "",
-    price: "",
-    qty: 1,
     image: null,
     category: "",
   });
+
+  const [variantInputs, setVariantInputs] = useState([
+    { attributes: {}, price: "", quantity: "" },
+  ]);
+
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const token = localStorage.getItem("token");
@@ -66,27 +68,27 @@ const AddProduct = ({ onDiscard }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const variants = [
-      { ram: formData.ram, price: formData.price, quantity: formData.qty },
-    ];
-
     if (
       !formData.title ||
-      !formData.price ||
-      !formData.ram ||
-      !formData.image ||
       !formData.category ||
-      !formData.subCategory
+      !formData.subCategory ||
+      !formData.image
     ) {
       alert("Please fill all required fields.");
       return;
     }
 
+    const variants = variantInputs.map((variant) => ({
+      attributes: variant.attributes,
+      price: variant.price,
+      quantity: variant.quantity,
+    }));
+
     const body = new FormData();
     body.append("name", formData.title);
     body.append("description", formData.description);
-    body.append("category", formData.category);
-    body.append("subCategory", formData.subCategory);
+    body.append("category", formData.category); // ObjectId for category
+    body.append("subCategory", formData.subCategory); // ObjectId for subCategory
     body.append("variants", JSON.stringify(variants));
     body.append("image", formData.image);
 
@@ -110,19 +112,17 @@ const AddProduct = ({ onDiscard }) => {
       title: "",
       description: "",
       subCategory: "",
-      ram: "",
-      price: "",
-      qty: 1,
       image: null,
       category: "",
     });
+    setVariantInputs([{ attributes: {}, price: "", quantity: "" }]); // reset variants
     onDiscard();
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6"
+      className=" mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6 h-fit pt-10 bg-white"
     >
       <FormHeader />
 
@@ -136,6 +136,17 @@ const AddProduct = ({ onDiscard }) => {
         placeholder="Enter product title"
       />
 
+      <ProductVariants
+        variantInputs={variantInputs}
+        setVariantInputs={setVariantInputs}
+      />
+
+      <CategorySelector
+        categories={categories}
+        subCategories={subCategories}
+        formData={formData}
+        onChange={handleChange}
+      />
       <FormFields
         label="Description"
         type="text"
@@ -146,17 +157,7 @@ const AddProduct = ({ onDiscard }) => {
         placeholder="Enter description"
       />
 
-      <ProductVariants formData={formData} handleChange={handleChange} />
-
       <ProductImageUpload onChange={handleChange} />
-
-      <CategorySelector
-        categories={categories}
-        subCategories={subCategories}
-        formData={formData}
-        onChange={handleChange}
-      />
-
       <FormButtons onSubmit={handleSubmit} onDiscard={handleDiscard} />
     </form>
   );

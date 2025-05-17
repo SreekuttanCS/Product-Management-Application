@@ -54,7 +54,7 @@ const AddSubCategory = ({ onDiscard }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6"
+      className="max-w-xl mx-auto p-6 rounded-lg flex flex-col gap-6 bg-white shadow"
     >
       <h2 className="text-2xl font-semibold text-center">Add Subcategory</h2>
       <select

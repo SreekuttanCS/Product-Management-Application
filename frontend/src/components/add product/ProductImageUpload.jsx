@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProductImageUpload = ({ onChange }) => (
-  <div className="flex flex-col gap-2">
+  <div className="flex justify-around  w-full">
     <label htmlFor="image" className="font-semibold">
       Product Image
     </label>
@@ -10,7 +10,7 @@ const ProductImageUpload = ({ onChange }) => (
       name="image"
       onChange={onChange}
       required
-      className="p-2 border rounded-md"
+      className="p-2 border rounded-md w-100"
     />
   </div>
 );

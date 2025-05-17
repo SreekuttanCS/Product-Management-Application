@@ -36,7 +36,7 @@ const AddCategory = ({ onDiscard }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xl mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6"
+      className="max-w-xl mx-auto p-6 rounded-lg shadow-md flex flex-col gap-6 bg-white"
     >
       <h2 className="text-2xl font-semibold text-center">Add Category</h2>
       <input
