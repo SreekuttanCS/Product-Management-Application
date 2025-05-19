@@ -56,6 +56,16 @@ Setup Backend
 cd backend
 npm install
 ```
+👉 Create a .env file in the backend folder and add the following:
+
+```bash
+PORT=5000
+MONGO_URI=your_mongo_url_here
+
+JWT_SECRET=your_jwt_secret_here
+
+```
+You can refer to the .env.example file for the structure.
 
 Run the server:
 
